@@ -1,0 +1,8 @@
+{
+  "kind": "experimental-static-preview",
+  "sourceRepository": "lozknowles/ElseMesh",
+  "sourceCommit": "f2afd7f2858c5cd8080e0f3514a3934e29d0daa8",
+  "liveFederation": false,
+  "productionRelease": false,
+  "sourceTreeDirty": false
+}
