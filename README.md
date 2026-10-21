@@ -22,9 +22,31 @@ and [qualification status](https://github.com/lozknowles/ElseMesh/blob/feature/n
 
 ## Update or roll back
 
-Edit the single pinned source commit in `.github/workflows/deploy-preview.yml`
-after source tests pass. A push to this publisher's `main` builds and deploys
-that exact commit. To roll back, restore a previously verified commit and push
-the workflow change. To retire this experimental link, disable Pages in this
-repository's settings. None of these operations changes the existing
-`lozknowles.github.io/ElseMesh/` site or draft PR #4.
+Normal publishing now uses the prebuilt `gh-pages` branch with `.nojekyll`.
+Build the exact source commit pinned in `.github/workflows/deploy-preview.yml`
+in a clean isolated checkout, run `npm run build` and `npm run stage:static-preview`,
+inspect the resulting publication scan and manifest, then commit only
+`artifacts/preview-site` contents to `gh-pages`. Pages uses Deploy from a branch,
+`gh-pages`, root. No custom CI build is required.
+
+The old source-build workflow is manual-only as a fallback. If using it, switch
+Pages back to GitHub Actions before running it. It contains GPU-dependent checks
+that may fail on runners without a working WebGPU adapter.
+
+Rollback uses an earlier reviewed static commit on `gh-pages`, committed normally;
+do not force-push. To retire the preview, disable Pages. These operations do not
+change the production ElseMesh site or either game source branch.
+
+## Preview repair (2026-10-21)
+
+The URL returned 404 with no successful deployment. The previous custom workflow
+failed because its runner had no WebGPU adapter; the next run was cancelled.
+The pinned source was built locally without game-source edits and staged with
+the existing publication scanner, experimental banner and isolated browser-storage
+prefix. No live federation service is included. The private standalone world
+builder remains a different repository.
+
+Build-tool dependency audit reported high-severity advisories in Vite and
+source-map-js at this historical pin. They were not upgraded during this repair;
+neither the Vite development server nor node_modules is published. Interactive
+game acceptance is separate from successful deployment.

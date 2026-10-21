@@ -1,8 +1,8 @@
 name: Publish experimental ElseMesh preview
 
+# Manual fallback only. Normal publishing uses locally built gh-pages files.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
